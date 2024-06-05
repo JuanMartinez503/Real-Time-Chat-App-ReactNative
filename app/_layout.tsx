@@ -5,11 +5,13 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, Link, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -55,10 +57,39 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const router = useRouter();
   return (
     <ConvexProvider client={convex}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#EEA217",
+        },
+        headerTintColor: "#fff",
+        contentStyle:{
+          backgroundColor: "#fff"
+        
+        }
+      }}>
+        <Stack.Screen name="index" options={{ 
+          headerTitle: "My Chats",
+          headerRight: () => (
+              <TouchableOpacity onPress={(()=>router.push('/(modal)/create'))}>
+                <Ionicons  name="add" size={32} color={'white'}/>
+              </TouchableOpacity>
+          )
+        }} />
+               <Stack.Screen name="(modal)/create" options={{ 
+          headerTitle: "Create Chat",
+          presentation: "modal",
+          animation: "slide_from_bottom",
+          headerLeft: () => (
+              <TouchableOpacity onPress={(()=>router.back())}>
+                <Ionicons  name="close-outline" size={32} color={'white'}/>
+              </TouchableOpacity>
+          )
+        }} />
+        <Stack.Screen name="(chat)/[chatid]" options={{ headerTitle: "Test" }} />
       </Stack>
     </ConvexProvider>
   );
