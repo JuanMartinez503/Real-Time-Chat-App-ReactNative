@@ -7,7 +7,7 @@ export const get = query({
     }
 })
 
-export const grtGroup = query({
+export const getGroup = query({
     args:{id: v.id('groups')},
     handler: async (ctx, {id}) => {
         return await ctx.db.query('groups').filter(q=>q.eq(q.field('_id'),id)).unique()
