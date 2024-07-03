@@ -3,10 +3,36 @@ import React from 'react'
 import { useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import { Link } from 'expo-router'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import Dialog from 'react-native-dialog'
 
 const index = () => {
   const groups = useQuery(api.groups.get) || []
-  console.log(groups)
+  const [name, setName] = React.useState('')
+  const [visible, setVisible] = React.useState(false)
+  React.useEffect(() => {
+    const loadUser = async () => {
+      const user = await AsyncStorage.getItem('user')
+      console.log(user)
+      if(!user){
+        setTimeout(() => {
+          setVisible(true)
+        },100)
+      } else {
+        setName(user)
+      }
+    }
+    loadUser()
+  }, [])
+
+  const setUser = async ()=>{
+    const r = (Math.random() + 1).toString(36).substring(7)
+    const userName = `${name}#${r}`
+    await AsyncStorage.setItem('user', userName)
+    setName(userName)
+    setVisible(false)
+
+  }
   return (
     <View style={{
       flex: 1,
@@ -27,6 +53,12 @@ const index = () => {
           </Link>
         ))}
       </ScrollView>
+      <Dialog.Container visible={visible}>
+        <Dialog.Title>Enter your name</Dialog.Title>
+        <Dialog.Input onChangeText={setName} value={name}/>
+        <Dialog.Button label="Set Name" onPress={setUser}/>
+
+        </Dialog.Container>
     </View>
   )
 }
