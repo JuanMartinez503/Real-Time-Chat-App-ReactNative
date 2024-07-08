@@ -9,8 +9,9 @@ import {
   TouchableOpacity,
   ListRenderItem,
   FlatList,
+  Keyboard,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useConvex, useMutation, useQuery } from "convex/react";
@@ -19,6 +20,7 @@ import { Doc, Id } from "@/convex/_generated/dataModel";
 import { Ionicons } from "@expo/vector-icons";
 const ChatId = () => {
   const { chatid } = useLocalSearchParams();
+  const listRef = useRef<FlatList>(null);
 
   const [user, setUser] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState<string>("");
@@ -41,6 +43,11 @@ const ChatId = () => {
     loadUser();
   }, []);
   useEffect(() => {
+    setTimeout(() => {
+      listRef.current?.scrollToEnd({ animated: true});
+    }, 100);
+  }, [messages]);
+  useEffect(() => {
     const loadGroup = async () => {
       const group = await convex.query(api.groups.getGroup, {
         id: chatid as Id<"groups">,
@@ -52,6 +59,7 @@ const ChatId = () => {
   }, []);
   const handleMessages = async () => {
     try {
+      Keyboard.dismiss();
       await addMessage({
         content: newMessage,
         group_id: chatid as Id<"groups">,
@@ -67,8 +75,9 @@ const ChatId = () => {
     const isUser = item.user === user;
 
     return (
-      <View>
-        <Text>{item.content}</Text>
+      <View style={[styles.messageContainer, isUser ? styles.userMessageContainer : styles.otherMessageContainer]}>
+        {item.content !== "" && (<Text style={[styles.messageText, isUser ? styles.userMessageText : {}]}>{item.content}</Text>)}
+        <Text style={styles.timestamp}>{new Date(item._creationTime).toLocaleTimeString()} - {item.user}</Text>
       </View>
     );
   };
@@ -83,8 +92,11 @@ const ChatId = () => {
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={90}
       >
-        <FlatList data={messages} renderItem={renderMessage} keyExtractor={(item)=>item._id.toString()}/>
+        <FlatList ref={listRef}
+        ListFooterComponent={<View style={{height: 20}}></View>}
+        data={messages} renderItem={renderMessage} keyExtractor={(item)=>item._id.toString()}/>
 
         <View style={styles.inputContainer}>
           <View style={{ flexDirection: "row" }}>
