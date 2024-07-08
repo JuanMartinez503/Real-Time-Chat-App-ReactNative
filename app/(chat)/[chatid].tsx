@@ -7,6 +7,7 @@ import { Doc, Id } from '@/convex/_generated/dataModel';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import ImageModal from '@/components/ImageModal';
 
 const Page = () => {
   const { chatid } = useLocalSearchParams();
@@ -17,6 +18,7 @@ const Page = () => {
   const listRef = useRef<FlatList>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const convex = useConvex();
   const navigation = useNavigation();
 
@@ -118,6 +120,7 @@ const Page = () => {
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={100}>
         {/* Render the messages */}
         <FlatList ref={listRef} data={messages} renderItem={renderMessage} keyExtractor={(item) => item._id.toString()} ListFooterComponent={<View style={{ padding: 5 }} />} />
+        <ImageModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
 
         {/* Bottom message input */}
         <View style={styles.inputContainer}>
@@ -125,7 +128,7 @@ const Page = () => {
           <View style={{ flexDirection: 'row' }}>
             <TextInput style={styles.textInput} value={newMessage} onChangeText={setNewMessage} placeholder="Type your message" multiline={true} />
 
-            <TouchableOpacity style={styles.sendButton} onPress={captureImage}>
+            <TouchableOpacity style={styles.sendButton} onPress={()=>setModalVisible(true)}>
               <Ionicons name="add-outline" style={styles.sendButtonText}></Ionicons>
             </TouchableOpacity>
             <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage} disabled={newMessage === ''}>
@@ -133,6 +136,7 @@ const Page = () => {
             </TouchableOpacity>
           </View>
         </View>
+
       </KeyboardAvoidingView>
 
       {/* Cover screen while uploading image */}
@@ -149,6 +153,8 @@ const Page = () => {
           <ActivityIndicator color="#fff" animating size="large" />
         </View>
       )}
+
+
     </SafeAreaView>
   );
 };
