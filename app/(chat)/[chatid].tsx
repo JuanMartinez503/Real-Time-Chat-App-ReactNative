@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ListRenderItem,
   FlatList,
+  Image,
   Keyboard,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
@@ -24,6 +25,8 @@ const ChatId = () => {
 
   const [user, setUser] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [uploading, setUploading] = useState<boolean>(false);
   const addMessage = useMutation(api.messages.sendMessage);
   const messages =
     useQuery(api.messages.get, { chatId: chatid as Id<"groups"> }) || [];
@@ -99,6 +102,8 @@ const ChatId = () => {
         data={messages} renderItem={renderMessage} keyExtractor={(item)=>item._id.toString()}/>
 
         <View style={styles.inputContainer}>
+        {selectedImage && <Image source={{ uri: selectedImage }} style={{ width: 200, height: 200, margin: 10 }} />}
+
           <View style={{ flexDirection: "row" }}>
             <TextInput
               style={styles.textInput}
@@ -107,6 +112,9 @@ const ChatId = () => {
               placeholder="Type your message"
               multiline={true}
             />
+                      <TouchableOpacity style={styles.sendButton} >
+              <Ionicons name="add-outline" style={styles.sendButtonText}></Ionicons>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.sendButton}
