@@ -187,10 +187,10 @@ const Page = () => {
         {item.file && (
           <Image
             source={{ uri: item.file }}
-            style={{ width: 200, height: 200, margin: 10 , borderRadius: 10}}
+            style={{ width: 200, height: 200, margin: 10 , borderRadius: 10, alignSelf:'center'}}
           />
         )}
-        <Text style={styles.timestamp}>
+        <Text style={[isUserMessage? {color:'#f5f5f5' , fontSize:9 , marginTop:5, fontFamily:'OpenSans'} : styles.timestamp]}>
           {new Date(item._creationTime).toLocaleTimeString()} - {item.user}
         </Text>
       </View>
@@ -202,7 +202,7 @@ const Page = () => {
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={100}
+        keyboardVerticalOffset={90}
       >
         {/* Render the messages */}
         <FlatList
@@ -269,9 +269,9 @@ const Page = () => {
               ></Ionicons>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.sendButton}
+              style={[styles.sendButton, newMessage === "" && !selectedImage && { opacity: 0.5 }]}
               onPress={handleSendMessage}
-              disabled={newMessage === ""}
+              disabled={newMessage === "" && !selectedImage}
             >
               <Ionicons
                 name="send-outline"
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     maxWidth: "80%",
   },
   userMessageContainer: {
-    backgroundColor: Colors.primary,
+    backgroundColor: '#7790E8',
     alignSelf: "flex-end",
   },
   otherMessageContainer: {
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
   messageText: {
     fontSize: 16,
     flexWrap: "wrap",
-    fontFamily:"Arimo"
+    fontFamily:"OpenSans"
   },
   userMessageText: {
     color: "#fff",
@@ -369,7 +369,8 @@ const styles = StyleSheet.create({
   timestamp: {
     marginTop: 5,
     fontSize: 9,
-    color: "a5a5a5",
+    color: "grey",
+    fontFamily:'OpenSans'
   },
 });
 

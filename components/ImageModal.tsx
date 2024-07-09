@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         
     }, 
     textOptions:{
-        fontFamily: 'Arial',
+        fontFamily: 'OpenSans',
         fontSize: 10
     }
 });

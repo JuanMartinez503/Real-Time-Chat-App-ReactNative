@@ -80,7 +80,7 @@ const index = () => {
                   >
                     {group.name}
                   </Text>
-                  <Text style={{ color: "#888" }}>{group.description}</Text>
+                  <Text style={{ color: "#888",fontFamily:'OpenSans' }}>{group.description}</Text>
                 </View>
               </TouchableOpacity>
             </Link>

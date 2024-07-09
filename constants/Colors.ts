@@ -2,7 +2,7 @@
 
 export default {
 
-  primary: '#5790E8',
+  primary: '#7590E8',
   secondary: '#FFFFFF',
 
   
