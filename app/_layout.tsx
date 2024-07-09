@@ -12,6 +12,7 @@ import "react-native-reanimated";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Colors from "@/constants/Colors";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -35,6 +36,8 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Arimo: require('@/assets/fonts/Arimo-Regular.ttf'),
+    RobotoBold: require('@/assets/fonts/Roboto-Bold.ttf'),
     ...FontAwesome.font,
   });
 
@@ -63,7 +66,11 @@ function RootLayoutNav() {
       <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#EEA217",
+          backgroundColor: Colors.primary,
+          
+        },
+        headerTitleStyle: {
+          fontFamily: 'RobotoBold'
         },
         headerTintColor: "#fff",
         contentStyle:{
@@ -72,7 +79,7 @@ function RootLayoutNav() {
         }
       }}>
         <Stack.Screen name="index" options={{ 
-          headerTitle: "My Chats",
+          headerTitle: "Groups",
           headerRight: () => (
               <TouchableOpacity onPress={(()=>router.push('/(modal)/create'))}>
                 <Ionicons  name="add" size={32} color={'white'}/>
@@ -80,7 +87,7 @@ function RootLayoutNav() {
           )
         }} />
                <Stack.Screen name="(modal)/create" options={{ 
-          headerTitle: "Create Chat",
+          headerTitle: "Create Group",
           presentation: "modal",
           animation: "slide_from_bottom",
           headerLeft: () => (

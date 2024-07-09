@@ -3,6 +3,7 @@ import React from 'react'
 import { useRouter } from 'expo-router'
 import { useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
+import Colors from '@/constants/Colors'
 
 const create = () => {
   const [name, setName] = React.useState('')
@@ -50,11 +51,12 @@ const create = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f5ea',
+    backgroundColor: '#f5f5f5',
     padding: 10,
   },
   label: {
     fontWeight: 'bold',
+    fontFamily: 'RobotoBold',
     marginVertical: 10,
   },
   input: {
@@ -64,18 +66,21 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     borderWidth:StyleSheet.hairlineWidth,
-    borderColor: '#333',
+    borderColor: Colors.primary,
   },
   button: {
-    backgroundColor: '#f8f5ea',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: Colors.primary,
+    padding: 15,
+    borderRadius: 10,
+  
     alignItems: 'center',
+    marginTop: 20,
 
 
   },
   buttonText: {
-    color: '#333',
+    fontFamily: 'RobotoBold',
+    color: '#fff',
   },
   
 })
