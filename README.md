@@ -20,7 +20,7 @@ All [Convex](https://www.convex.dev/) related code is in the `convex` folder:
 - `convex/messages.ts` - Convex mutations and queries for messages table
 - `convex/schema.ts` - Convex schema for groups and messages tables
 - `convex/http.ts` - Custom endpoint for file upload
-- `convex/greetings.ts` - Convex actions example
+
 
 
 ## App Screenshots
