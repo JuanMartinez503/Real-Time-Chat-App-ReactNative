@@ -205,6 +205,7 @@ const Page = () => {
         keyboardVerticalOffset={90}
       >
         {/* Render the messages */}
+        {messages.length === 0 && (<Text style={{textAlign:'center', marginTop:20, fontSize:20, fontFamily:'RobotoBold'}}>No messages found, try sending one!😀</Text>)}
         <FlatList
           ref={listRef}
           data={messages}
