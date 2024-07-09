@@ -38,6 +38,7 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     Arimo: require('@/assets/fonts/Arimo-Regular.ttf'),
     RobotoBold: require('@/assets/fonts/Roboto-Bold.ttf'),
+    OpenSans: require('@/assets/fonts/OpenSans_Condensed-Regular.ttf'),
     ...FontAwesome.font,
   });
 
